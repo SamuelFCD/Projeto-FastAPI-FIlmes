@@ -24,5 +24,6 @@ async def test_connection():
 
 
 app.include_router(prefix="/api",
-                   router=films_router) # prefixo + junta as rotas no app principal
+                   router=films_router
+                ) # prefixo + junta as rotas no app principal
 

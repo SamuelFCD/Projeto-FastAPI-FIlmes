@@ -7,14 +7,14 @@ from fastapi import (
 )
 
 
-from app.models.film import Film
+from app.models.film import Film, FilmResponse
 from app.repositories.films import FilmRepository
 
 from typing import Annotated, List
 
 router = APIRouter( 
     prefix="/films", # todos desse rota vão ter esse prefixo 
-    tags=["films"]
+    tags=["Films"]
 )
 
 def get_film_repository() -> FilmRepository:
@@ -27,11 +27,13 @@ film_repository_dependency = Annotated[FilmRepository, Depends(get_film_reposito
 
 @router.get(
     "/",
-    response_model= List[Film],
+    response_model= List[FilmResponse],
     status_code=status.HTTP_200_OK
 )
 async def get_films(service: film_repository_dependency):
-    return await service.get_films()
+    films = await service.get_films()
+    
+    return [FilmResponse(**dict(film)) for film in films]
 
 
 @router.delete(
@@ -39,7 +41,7 @@ async def get_films(service: film_repository_dependency):
     status_code=status.HTTP_204_NO_CONTENT
 )
 async def delete_films(service: film_repository_dependency, film_id: int):
-    if not service.exists_by_id(film_id):
+    if not await service.exists_by_id(film_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"O Filme com o ID {film_id} não foi encontrado."
@@ -73,7 +75,7 @@ async def update_film(
     film_id:int, 
     film:Film
 ):
-    if not service.exists_by_id(film_id):
+    if not await service.exists_by_id(film_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"O Filme com o ID {film_id} não foi encontrado."

@@ -1,13 +1,9 @@
 from app.core import database
 
 
-class ConnectDB:
-    def __init__(self):
-        self.pool = database.pool
-
 class FilmRepository:
     def __init__(self):
-        self.db = ConnectDB().pool
+        self.db = database.pool
         
     async def exists_by_name(self, titulo: str) -> bool:
         query = "SELECT EXISTS(SELECT 1 FROM filmes WHERE titulo = $1);"
@@ -16,12 +12,15 @@ class FilmRepository:
 
         return result
     
-    def exists_by_id(self, film_id: int) -> bool:
-        query = "SELECT EXISTS(SELECT 1 FROM filmes WHERE filme_id = $1);"
+    async def exists_by_id(self, film_id: int) -> bool:
+        print("validador")
+        query = "SELECT 1 FROM filmes WHERE filme_id = $1;"
 
-        result = self.db.fetchval(query, film_id)
+        result = await self.db.fetchval(query, film_id)
+        
+    
 
-        return result
+        return result is not None
     
     
     async def get_films(self):
