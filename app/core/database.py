@@ -1,4 +1,5 @@
 import asyncpg
+import os
 
 pool: asyncpg.Pool | None = None
 
@@ -7,11 +8,11 @@ async def connect_db():
 
     try:
         pool = await asyncpg.create_pool(
-            user="postgres",
-            password="123",
-            database="Filmes",
-            host="localhost",
-            port="5432",
+            user=os.getenv("DB_USER", "postgres"),
+            password=os.getenv("DB_PASSWORD", "123"),
+            database=os.getenv("DB_NAME", "Filmes"),
+            host=os.getenv("DB_HOST", "localhost"),
+            port=os.getenv("DB_PORT", "5432"),
             min_size=1
         )
 
