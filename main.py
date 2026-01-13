@@ -19,7 +19,7 @@ async def lifespan(app: FastAPI): # controlar o ciclo de vida da aplicação
 app = FastAPI(lifespan=lifespan) # gerenciadora da vida da aplicação.
 
 @app.get("/")
-async def text_connection():
+async def test_connection():
     return {"message": "A aplicação está rodando!"}
 
 

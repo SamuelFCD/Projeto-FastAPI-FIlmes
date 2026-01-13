@@ -15,8 +15,8 @@ async def connect_db():
         
         pool = await asyncpg.create_pool(
             user=os.getenv("DB_USER", "postgres"),
-            password=os.getenv("DB_PASSWORD", "123"),
-            database=os.getenv("DB_NAME", "Filmes"),
+            password=os.getenv("DB_PASSWORD", ""),
+            database=os.getenv("DB_NAME", "filmes"),
             host=os.getenv("DB_HOST", "localhost"),
             port=port,
             min_size=1

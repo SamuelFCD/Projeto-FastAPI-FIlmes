@@ -1,46 +1,84 @@
 
-from fastapi import APIRouter
+from fastapi import (
+    APIRouter, 
+    Depends, 
+    status,
+    HTTPException
+)
 
-from app.repositories import films as films_repository
 
-from pydantic import BaseModel
+from app.models.film import Film
+from app.repositories.films import FilmRepository
 
-router = APIRouter(
+from typing import Annotated, List
+
+router = APIRouter( 
     prefix="/films", # todos desse rota vão ter esse prefixo 
     tags=["films"]
 )
 
-@router.get("/")
+def get_film_repository() -> FilmRepository:
+    return FilmRepository()
 
-async def get_films():
+film_repository_dependency = Annotated[FilmRepository, Depends(get_film_repository)]
 
-    return await films_repository.get_films()
 
-@router.delete("/{film_id}")
-async def delete_films(film_id: int):
 
-    await films_repository.delete_films(film_id)
+
+@router.get(
+    "/",
+    response_model= List[Film],
+    status_code=status.HTTP_200_OK
+)
+async def get_films(service: film_repository_dependency):
+    return await service.get_films()
+
+
+@router.delete(
+    "/{film_id}",
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def delete_films(service: film_repository_dependency, film_id: int):
+    if not service.exists_by_id(film_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"O Filme com o ID {film_id} não foi encontrado."
+        )
+    
+
+    await service.delete_films(film_id)
 
     return {"message": f"O Filme {film_id} foi deletado com sucesso "}
 
-class CreateFilm(BaseModel):
-    titulo:str
-    genero:str
-    ano:int
-    diretor:str
-    duracao_min:int
 
-@router.post("/", status_code=201) # verifica se algo foi criado no servidor 
-async def create_film(film: CreateFilm):
 
-    novo_filme = await films_repository.create_film(film.titulo, film.genero, film.ano, film.diretor, film.duracao_min)
+@router.post("/", status_code=status.HTTP_201_CREATED) # verifica se algo foi criado no servidor 
+async def create_film(
+    service: film_repository_dependency,
+    film: Film
+):
+    if await service.exists_by_name(film.titulo):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"O Filme com o título '{film.titulo}' já existe."
+    )
+        
+    novo_filme = await service.create_film(*film.model_dump().values())
 
     return novo_filme
 
 @router.put("/{film_id}")
+async def update_film(
+    service: film_repository_dependency,
+    film_id:int, 
+    film:Film
+):
+    if not service.exists_by_id(film_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"O Filme com o ID {film_id} não foi encontrado."
+        )
 
-async def update_film(film_id:int, film:CreateFilm):
-
-    filme_atualizado = await films_repository.update_film(film_id, film.titulo, film.genero, film.ano, film.diretor, film.duracao_min)
+    filme_atualizado = await service.update_film(film_id, *film.model_dump().values())
 
     return filme_atualizado
