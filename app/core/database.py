@@ -12,7 +12,7 @@ async def connect_db():
             password=os.getenv("DB_PASSWORD", "123"),
             database=os.getenv("DB_NAME", "Filmes"),
             host=os.getenv("DB_HOST", "localhost"),
-            port=os.getenv("DB_PORT", "5432"),
+            port=int(os.getenv("DB_PORT", "5432")),
             min_size=1
         )
 
