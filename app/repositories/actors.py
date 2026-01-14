@@ -30,7 +30,7 @@ class ActorRepository:
         finally:
             await conn.close()
 
-    async def create_actor(self, nome: str, nacionalidade: str):
+    async def create_actor(self, *, nome: str, nacionalidade: str):
         query = """
         INSERT INTO atores (nome, nacionalidade)
         VALUES ($1, $2)
@@ -63,7 +63,7 @@ class ActorRepository:
         finally:
             await conn.close()
 
-    async def update_actor(self, actor_id: int, nome: str, nacionalidade: str):
+    async def update_actor(self, actor_id: int, *, nome: str, nacionalidade: str):
         query = """
         UPDATE atores 
         SET nome = $1, nacionalidade = $2
