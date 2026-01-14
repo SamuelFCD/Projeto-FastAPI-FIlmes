@@ -6,5 +6,5 @@ class Actor(BaseModel):
     nacionalidade: str
 
 class ActorResponse(Actor):
-    actor_id: int
-    actor_filmes: Optional[List[str]] = []
+    ator_id: int
+    filmes_participados: Optional[List[str]] = []
