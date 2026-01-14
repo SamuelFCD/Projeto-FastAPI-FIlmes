@@ -55,7 +55,7 @@ async def create_actor(
     service: actor_repository_dependency,
     actor: Actor
 ):        
-    novo_ator = await service.create_actor(*actor.model_dump().values())
+    novo_ator = await service.create_actor(**actor.model_dump())
     return ActorResponse(**dict(novo_ator))
 
 @router.put(
@@ -73,7 +73,7 @@ async def update_actor(
             detail=f"O Ator com o ID {actor_id} não foi encontrado."
         )
 
-    ator_atualizado = await service.update_actor(actor_id, *actor.model_dump().values())
+    ator_atualizado = await service.update_actor(actor_id, **actor.model_dump())
     return ActorResponse(**dict(ator_atualizado))
 
 @router.delete(
@@ -91,8 +91,6 @@ async def delete_actor(
         )
     
     await service.delete_actor(actor_id)
-    
-    return {"message": f"O Ator {actor_id} foi deletado com sucesso"}
 
 
 
