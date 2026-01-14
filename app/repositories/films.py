@@ -4,6 +4,7 @@ from app.core import database
 class FilmRepository:
     def __init__(self):
         self.db = database.pool
+
         
     async def exists_by_name(self, titulo: str) -> bool:
         query = "SELECT EXISTS(SELECT 1 FROM filmes WHERE titulo = $1);"
@@ -51,3 +52,5 @@ class FilmRepository:
         query = "UPDATE filmes SET titulo = $1, genero = $2, ano = $3, diretor = $4, duracao_min = $5 WHERE filme_id = $6 RETURNING *"
 
         return await self.db.fetchrow(query, titulo, genero, ano, diretor, duracao_min, filme_id)
+
+  
