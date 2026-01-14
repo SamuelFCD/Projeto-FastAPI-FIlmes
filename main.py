@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager # o que fazer quando a api inicia/fin
 
 from app.core import database
 from app.routes.films import router as films_router
-
+from app.routes import actor
 @asynccontextmanager
 async def lifespan(app: FastAPI): # controlar o ciclo de vida da aplicação 
 
@@ -26,4 +26,5 @@ async def test_connection():
 app.include_router(prefix="/api",
                    router=films_router
                 ) # prefixo + junta as rotas no app principal
+app.include_router(prefix="/api", router=actor.router)
 
