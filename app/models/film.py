@@ -4,6 +4,7 @@ from pydantic import (
     Field,
     field_validator 
 )
+from typing import Optional
 
 class Film(BaseModel):
     titulo: str = Field(min_length=1)
@@ -24,7 +25,10 @@ class Film(BaseModel):
             raise ValueError(f"O Titulo e Duração têm que ser maior que 0")
         
         return value
+    
 
 class FilmResponse(Film):
-    filme_id: int
-    criado_em: datetime
+    filme_id: intt
+    autor_nome: Optional[str] = None
+    generos: Optional[str] = None
+    
