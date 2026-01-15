@@ -23,8 +23,6 @@ def get_film_repository() -> FilmRepository:
 film_repository_dependency = Annotated[FilmRepository, Depends(get_film_repository)]
 
 
-
-
 @router.get(
     "/",
     response_model= List[FilmResponse],
@@ -34,6 +32,26 @@ async def get_films(service: film_repository_dependency):
     films = await service.get_films()
     
     return [FilmResponse(**dict(film)) for film in films]
+
+
+@router.get(
+    "/{film_id}",
+    response_model=FilmResponse,
+    status_code=status.HTTP_200_OK
+)
+async def get_film_by_id(
+    service: film_repository_dependency, 
+    film_id: int
+):
+    film = await service.get_film_by_id(film_id)
+    
+    if not film:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"O Filme com o ID {film_id} não foi encontrado."
+        )
+    
+    return FilmResponse(**dict(film))
 
 
 @router.delete(
@@ -65,7 +83,12 @@ async def create_film(
             detail=f"O Filme com o título '{film.titulo}' já existe."
     )
         
-    novo_filme = await service.create_film(*film.model_dump().values())
+    novo_filme = novo_filme = await service.create_film(
+    titulo=film.titulo,
+    ano=film.ano,
+    genero=film.genero,
+    diretor=film.diretor,
+    duracao_min=film.duracao_min)
 
     return novo_filme
 
@@ -84,3 +107,4 @@ async def update_film(
     filme_atualizado = await service.update_film(film_id, *film.model_dump().values())
 
     return filme_atualizado
+

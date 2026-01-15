@@ -92,6 +92,27 @@ async def delete_actor(
     
     await service.delete_actor(actor_id)
 
+@router.post(
+    "/{filme_id}/atores/{ator_id}",
+    status_code=status.HTTP_201_CREATED
+)
+async def add_actor_filme(
+    filme_id: int,
+    ator_id: int,
+    service: actor_repository_dependency
+):
+    adicionar_ator_filme = await service.add_actor_to_film(
+        ator_id=ator_id,
+        filme_id=filme_id
+    )
+
+    if not adicionar_ator_filme:
+        raise HTTPException(
+            status_code=409,
+            detail="Ator já vinculado a este filme"
+        )
+
+    return {"message": "Ator adicionado ao filme com sucesso"}
 
 
 

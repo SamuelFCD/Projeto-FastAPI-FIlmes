@@ -1,31 +1,26 @@
-INSERT INTO filmes (titulo, genero, ano, diretor, duracao_min) VALUES
-('Matrix', 'Ficção Científica', 1999, 'Wachowski', 136),
-('Interestelar', 'Ficção Científica', 2014, 'Christopher Nolan', 169),
-('A Origem', 'Ficção Científica', 2010, 'Christopher Nolan', 148),
-('O Senhor dos Anéis: A Sociedade do Anel', 'Fantasia', 2001, 'Peter Jackson', 178),
-('O Senhor dos Anéis: As Duas Torres', 'Fantasia', 2002, 'Peter Jackson', 179),
-('O Senhor dos Anéis: O Retorno do Rei', 'Fantasia', 2003, 'Peter Jackson', 201),
-('Clube da Luta', 'Drama', 1999, 'David Fincher', 139),
-('Forrest Gump', 'Drama', 1994, 'Robert Zemeckis', 142),
-('Pulp Fiction', 'Crime', 1994, 'Quentin Tarantino', 154),
-('Gladiador', 'Ação', 2000, 'Ridley Scott', 155),
-('Batman Begins', 'Ação', 2005, 'Christopher Nolan', 140),
-('O Cavaleiro das Trevas', 'Ação', 2008, 'Christopher Nolan', 152),
-('O Cavaleiro das Trevas Ressurge', 'Ação', 2012, 'Christopher Nolan', 165),
-('Vingadores: Ultimato', 'Ação', 2019, 'Anthony Russo', 181),
-('Homem de Ferro', 'Ação', 2008, 'Jon Favreau', 126),
-('Capitão América: O Primeiro Vingador', 'Ação', 2011, 'Joe Johnston', 124),
-('Thor', 'Fantasia', 2011, 'Kenneth Branagh', 115),
-('Avatar', 'Ficção Científica', 2009, 'James Cameron', 162),
-('Titanic', 'Romance', 1997, 'James Cameron', 195),
-('Jurassic Park', 'Aventura', 1993, 'Steven Spielberg', 127),
-('O Resgate do Soldado Ryan', 'Guerra', 1998, 'Steven Spielberg', 169),
-('De Volta para o Futuro', 'Ficção Científica', 1985, 'Robert Zemeckis', 116),
-('Toy Story', 'Animação', 1995, 'John Lasseter', 81),
-('Procurando Nemo', 'Animação', 2003, 'Andrew Stanton', 100),
-('Up: Altas Aventuras', 'Animação', 2009, 'Pete Docter', 96),
-('Coringa', 'Drama', 2019, 'Todd Phillips', 122),
-('Duna', 'Ficção Científica', 2021, 'Denis Villeneuve', 155),
-('Mad Max: Estrada da Fúria', 'Ação', 2015, 'George Miller', 120),
-('O Lobo de Wall Street', 'Biografia', 2013, 'Martin Scorsese', 180),
-('Parasita', 'Suspense', 2019, 'Bong Joon-ho', 132);
+INSERT INTO atores (nome, nacionalidade) VALUES
+('Wagner Moura', 'Brasileira'),
+('Leonardo DiCaprio', 'Americana'),
+('Keanu Reeves', 'Canadense'),
+('Morgan Freeman', 'Americana'),
+('Scarlett Johansson', 'Americana'),
+('Natalie Portman', 'Israelense'),
+('Tom Hanks', 'Americana'),
+('Brad Pitt', 'Americana'),
+('Christian Bale', 'Britânica'),
+('Song Kang-ho', 'Sul-coreana');
+
+
+INSERT INTO filmes (titulo, ano, genero, diretor, duracao_min) VALUES
+('Cidade de Deus', 2002, 'Drama', 'Fernando Meirelles', 130),
+('Interestelar', 2014, 'Ficção Científica', 'Christopher Nolan', 169),
+('O Poderoso Chefão', 1972, 'Crime', 'Francis Ford Coppola', 175),
+('Matrix', 1999, 'Ficção Científica', 'Lana Wachowski', 136),
+('Clube da Luta', 1999, 'Drama', 'David Fincher', 139),
+('Forrest Gump', 1994, 'Drama', 'Robert Zemeckis', 142),
+('O Cavaleiro das Trevas', 2008, 'Ação', 'Christopher Nolan', 152),
+('Parasita', 2019, 'Suspense', 'Bong Joon-ho', 132),
+('A Origem', 2010, 'Ficção Científica', 'Christopher Nolan', 148),
+('O Resgate do Soldado Ryan', 1998, 'Guerra', 'Steven Spielberg', 169);
+
+SELECT * FROM filme_ator

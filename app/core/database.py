@@ -1,6 +1,9 @@
 import asyncpg
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
 pool: asyncpg.Pool | None = None
 
 async def connect_db():

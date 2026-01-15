@@ -31,7 +31,15 @@ class FilmRepository:
         result = await self.db.fetch(query=query)
 
         return result
+    
+    async def get_film_by_id(self, film_id: int):
 
+        query = "SELECT * FROM filmes WHERE filme_id = $1"
+
+        result = await self.db.fetchrow(query, film_id)
+
+        return result
+            
     async def delete_films(self, film_id:int):
 
         query = "DELETE FROM filmes WHERE filme_id = $1"
@@ -40,17 +48,17 @@ class FilmRepository:
 
         return result
 
-    async def create_film(self, titulo:str, genero:str, ano:int, diretor: str, duracao_min: int):
+    async def create_film(self, titulo:str, ano:int, genero:str, diretor: str, duracao_min: int):
 
-        query = "INSERT INTO filmes (titulo, genero, ano, diretor, duracao_min) VALUES ($1, $2, $3, $4, $5) RETURNING * "
+        query = "INSERT INTO filmes (titulo, ano, genero, diretor, duracao_min) VALUES ($1, $2, $3, $4, $5) RETURNING * "
 
-        return await self.db.fetchrow(query, titulo, genero, ano, diretor, duracao_min)
+        return await self.db.fetchrow(query, titulo, ano, genero, diretor, duracao_min)
 
 
-    async def update_film(self, filme_id:int, titulo:str, genero:str, ano:int, diretor: str, duracao_min: int):
+    async def update_film(self, filme_id:int, titulo:str, ano:int, genero:str, diretor: str, duracao_min: int):
 
-        query = "UPDATE filmes SET titulo = $1, genero = $2, ano = $3, diretor = $4, duracao_min = $5 WHERE filme_id = $6 RETURNING *"
+        query = "UPDATE filmes SET titulo = $1, ano = $2, genero = $3, diretor = $4, duracao_min = $5 WHERE filme_id = $6 RETURNING *"
 
-        return await self.db.fetchrow(query, titulo, genero, ano, diretor, duracao_min, filme_id)
+        return await self.db.fetchrow(query, titulo, ano, genero, diretor, duracao_min, filme_id)
 
   

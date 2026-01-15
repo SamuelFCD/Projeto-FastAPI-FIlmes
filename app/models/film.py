@@ -8,12 +8,12 @@ from typing import Optional, List
 
 class Film(BaseModel):
     titulo: str = Field(min_length=1)
-    genero: str = Field(min_length=1)
     ano: int
+    genero: str
     diretor: str = Field(min_length=1)
     duracao_min: int
     
-    @field_validator("titulo", "diretor", "genero")
+    @field_validator("titulo", "genero", "diretor")
     @classmethod
     def capitaliza_str(cls, value: str) -> str:
         return value.capitalize()
@@ -29,6 +29,3 @@ class Film(BaseModel):
 
 class FilmResponse(Film):
     filme_id: int
-    autor_nome: Optional[str] = None
-    generos: Optional[str] = None
-    elenco: Optional[List[str]] = []
